@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,7 +72,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen relative font-sans text-brand-dark">
+<body class="min-h-screen relative font-sans text-brand-dark overflow-x-hidden w-full max-w-[100vw]">
 
     <!-- Preloader -->
     <div id="stackly-preloader" class="fixed inset-0 z-[9999] bg-[#f4f7f6] flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
@@ -112,10 +112,21 @@
         </div>
 
         <!-- Mobile Menu Hamburger Button -->
-        <button class="xl:hidden text-2xl text-brand-dark hover:text-brand-accent transition relative z-10">
+        <button class="xl:hidden text-2xl text-brand-accent border-2 border-brand-yellow px-2 py-1 rounded-md bg-white hover:bg-brand-yellow hover:text-brand-dark transition relative z-10">
             <i class="fa-solid fa-bars"></i>
         </button>
-    </nav>    <main>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#f4f7f6] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col items-center justify-center gap-8 xl:hidden">
+        <a href="index.html" class="text-2xl font-bold hover:text-brand-accent transition">HOME</a>
+        <a href="about.html" class="text-2xl font-bold hover:text-brand-accent transition">ABOUT</a>
+        <a href="blog.html" class="text-2xl font-bold hover:text-brand-accent transition">BLOG</a>
+        <a href="services.html" class="text-2xl font-bold hover:text-brand-accent transition">SERVICE</a>
+        <a href="contact.html" class="text-2xl font-bold hover:text-brand-accent transition">CONTACT</a>
+        <a href="login.html" class="mt-4 inline-flex items-center gap-2 bg-brand-green text-white font-bold text-lg px-8 py-3 rounded-full hover:bg-brand-dark transition shadow-md hover:shadow-lg"><i class="fa-solid fa-right-to-bracket"></i> LOGIN</a>
+    </div>
+    <main>
         <!-- 1. BLOG INTRODUCTION -->
         <section class="relative pt-48 pb-20 lg:pt-56 lg:pb-24 bg-cover bg-center bg-no-repeat overflow-hidden" style="background-image: url('assets/images/blog_bg.webp');">
             <!-- Semi-transparent overlay to ensure text readability -->
@@ -805,5 +816,30 @@
             }
         });
     </script>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.querySelector('button.xl\\:hidden');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const icon = hamburgerBtn.querySelector('i');
+            
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', () => {
+                    const isClosed = mobileMenu.classList.contains('translate-x-full');
+                    if (isClosed) {
+                        mobileMenu.classList.remove('translate-x-full');
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        mobileMenu.classList.add('translate-x-full');
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>

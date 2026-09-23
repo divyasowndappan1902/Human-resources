@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +36,7 @@
         }
     </script>
 </head>
-<body class="font-sans text-brand-dark bg-white overflow-hidden">
+<body class="font-sans text-brand-dark bg-white overflow-hidden overflow-x-hidden w-full max-w-[100vw]">
 
     <!-- Preloader -->
     <div id="stackly-preloader" class="fixed inset-0 z-[9999] bg-[#f4f7f6] flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
@@ -72,7 +72,7 @@
         </div>
 
         <!-- Right: Authentication Panel -->
-        <div class="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-16 lg:px-24 xl:px-32 relative h-full overflow-y-auto z-10 bg-white shadow-[-20px_0_50px_rgba(0,0,0,0.05)]">
+        <div class="w-full lg:w-1/2 flex flex-col lg:justify-center px-8 py-6 lg:py-0 sm:px-16 lg:px-24 xl:px-32 relative h-full overflow-y-auto z-10 bg-white shadow-[-20px_0_50px_rgba(0,0,0,0.05)]">
 
             <div class="w-full max-w-md mx-auto py-20 lg:py-10">
                 
@@ -345,5 +345,30 @@
             }
         });
     </script>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.querySelector('button.xl\\:hidden');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const icon = hamburgerBtn.querySelector('i');
+            
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', () => {
+                    const isClosed = mobileMenu.classList.contains('translate-x-full');
+                    if (isClosed) {
+                        mobileMenu.classList.remove('translate-x-full');
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        mobileMenu.classList.add('translate-x-full');
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>

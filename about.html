@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,7 +63,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen relative font-sans text-brand-dark">
+<body class="min-h-screen relative font-sans text-brand-dark overflow-x-hidden w-full max-w-[100vw]">
 
     <!-- Preloader -->
     <div id="stackly-preloader" class="fixed inset-0 z-[9999] bg-[#f4f7f6] flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
@@ -103,10 +103,21 @@
         </div>
 
         <!-- Mobile Menu Hamburger Button -->
-        <button class="xl:hidden text-2xl text-brand-dark hover:text-brand-accent transition relative z-10">
+        <button class="xl:hidden text-2xl text-brand-accent border-2 border-brand-yellow px-2 py-1 rounded-md bg-white hover:bg-brand-yellow hover:text-brand-dark transition relative z-10">
             <i class="fa-solid fa-bars"></i>
         </button>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#f4f7f6] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col items-center justify-center gap-8 xl:hidden">
+        <a href="index.html" class="text-2xl font-bold hover:text-brand-accent transition">HOME</a>
+        <a href="about.html" class="text-2xl font-bold hover:text-brand-accent transition">ABOUT</a>
+        <a href="blog.html" class="text-2xl font-bold hover:text-brand-accent transition">BLOG</a>
+        <a href="services.html" class="text-2xl font-bold hover:text-brand-accent transition">SERVICE</a>
+        <a href="contact.html" class="text-2xl font-bold hover:text-brand-accent transition">CONTACT</a>
+        <a href="login.html" class="mt-4 inline-flex items-center gap-2 bg-brand-green text-white font-bold text-lg px-8 py-3 rounded-full hover:bg-brand-dark transition shadow-md hover:shadow-lg"><i class="fa-solid fa-right-to-bracket"></i> LOGIN</a>
+    </div>
+
     <main>
         <!-- HERO SECTION -->
         <section class="relative min-h-[60vh] pt-48 pb-24 lg:pt-56 lg:pb-32 bg-brand-dark overflow-hidden flex items-center justify-center text-center">
@@ -169,7 +180,7 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-brand-green/80 via-transparent to-transparent mix-blend-multiply"></div>
                             
                             <!-- Glassmorphism Badge -->
-                            <div class="absolute bottom-8 left-8 right-8 backdrop-blur-md bg-white/10 border border-white/20 p-6 rounded-2xl flex items-center gap-4">
+                            <div class="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 backdrop-blur-md bg-white/10 border border-white/20 p-4 md:p-6 rounded-2xl flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-full bg-brand-yellow flex items-center justify-center shrink-0">
                                     <i class="fa-solid fa-check text-brand-green"></i>
                                 </div>
@@ -284,7 +295,7 @@
         <!-- 3. OUR MISSION & VISION -->
         <section class="py-24 bg-[#09100d] relative overflow-hidden">
             <!-- Background Glow -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-green/20 rounded-full blur-[120px] pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[800px] bg-brand-green/20 rounded-full blur-[120px] pointer-events-none"></div>
 
             <div class="container mx-auto px-6 lg:px-16 relative z-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
@@ -339,13 +350,13 @@
                 <!-- Bento Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
                     <!-- Large Box 1 -->
-                    <div class="md:col-span-2 rounded-[2rem] bg-brand-green p-10 relative overflow-hidden group shadow-lg" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="md:col-span-2 rounded-[2rem] bg-brand-green p-6 md:p-10 relative overflow-hidden group shadow-lg" data-aos="zoom-in" data-aos-delay="0">
                         <div class="absolute inset-0 opacity-10 bg-[url('assets/images/image_16.webp')] bg-cover mix-blend-overlay group-hover:scale-105 transition duration-700"></div>
                         <div class="relative z-10 flex flex-col justify-end h-full text-white">
                             <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md mb-6 border border-white/20">
                                 <i class="fa-solid fa-ranking-star text-2xl text-brand-yellow"></i>
                             </div>
-                            <h3 class="text-3xl font-bold mb-2">Expert HR Support</h3>
+                            <h3 class="text-2xl md:text-3xl font-bold mb-2">Expert HR Support</h3>
                             <p class="text-white/70 max-w-md">Our certified professionals provide dedicated guidance tailored to your specific industry challenges and goals.</p>
                         </div>
                     </div>
@@ -384,7 +395,7 @@
                             <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md mb-6 border border-white/10">
                                 <i class="fa-solid fa-chart-pie text-2xl text-brand-accent"></i>
                             </div>
-                            <h3 class="text-3xl font-bold mb-2">Data-Driven Decisions</h3>
+                            <h3 class="text-2xl md:text-3xl font-bold mb-2">Data-Driven Decisions</h3>
                             <p class="text-gray-400 max-w-md">Transforming raw HR data into actionable strategies that increase productivity and reduce turnover.</p>
                         </div>
                     </div>
@@ -889,6 +900,31 @@
             }
         });
     </script>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerBtn = document.querySelector('button.xl\\:hidden');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const icon = hamburgerBtn.querySelector('i');
+            
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', () => {
+                    const isClosed = mobileMenu.classList.contains('translate-x-full');
+                    if (isClosed) {
+                        mobileMenu.classList.remove('translate-x-full');
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        mobileMenu.classList.add('translate-x-full');
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>
 
