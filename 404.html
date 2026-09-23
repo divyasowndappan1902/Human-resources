@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Stackly</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#004f44',
+                            yellow: '#f9d371',
+                            dark: '#1a1a1a',
+                            light: '#f4f7f6',
+                            accent: '#00a877'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-[#f4f7f6] flex flex-col justify-center items-center p-6 text-center">
+
+    <!-- Preloader -->
+    <div id="stackly-preloader" class="fixed inset-0 z-[9999] bg-[#f4f7f6] flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+        <div class="relative w-32 h-32 flex items-center justify-center animate-pulse">
+            <!-- Pulsing circles -->
+            <div class="absolute inset-0 border-4 border-brand-accent rounded-full opacity-20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+            <div class="absolute inset-2 border-4 border-brand-green rounded-full opacity-40 animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+            <!-- Logo -->
+            <img src="assets/images/logo_0045.webp" alt="Stackly Logo" class="w-16 h-16 object-contain relative z-10 drop-shadow-md">
+        </div>
+        <div class="mt-4 text-brand-green font-bold text-sm tracking-widest uppercase animate-bounce">Loading...</div>
+    </div>
+
+    
+    <div class="max-w-2xl bg-white rounded-3xl p-12 md:p-20 shadow-2xl relative overflow-hidden">
+        <!-- Decorative Background -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-yellow/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-accent/10 rounded-full blur-3xl -ml-20 -mb-20"></div>
+        
+        <div class="relative z-10">
+            <!-- 404 Visual -->
+            <div class="text-[8rem] md:text-[12rem] font-black text-brand-green leading-none mb-4 drop-shadow-sm font-serif">
+                404
+            </div>
+            
+            <!-- Icon -->
+            <div class="text-brand-yellow text-5xl mb-8">
+                <i class="fa-solid fa-triangle-exclamation animate-bounce"></i>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-brand-dark mb-4">Page Under Construction</h1>
+            <p class="text-gray-500 text-lg mb-10 max-w-md mx-auto leading-relaxed">
+                Oops! Looks like this page is still being built. Check back soon for more updates!
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="window.history.back()" class="inline-flex items-center gap-3 bg-white text-brand-dark border-2 border-brand-green font-bold px-8 py-4 rounded-xl hover:bg-brand-green hover:text-white transition duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform">
+                    <i class="fa-solid fa-rotate-left"></i> Go Back
+                </button>
+                <a href="index.html" class="inline-flex items-center gap-3 bg-brand-green text-white font-bold px-8 py-4 rounded-xl hover:bg-brand-accent transition duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform">
+                    <i class="fa-solid fa-house"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Preloader Script -->
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('stackly-preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 700);
+            }
+        });
+    </script>
+</body>
+</html>

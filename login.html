@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Hirxpert HR</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#004f44',
+                            yellow: '#f9d371',
+                            dark: '#1a1a1a',
+                            light: '#f4f7f6',
+                            accent: '#00a877'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-brand-dark bg-white overflow-hidden">
+
+    <!-- Preloader -->
+    <div id="stackly-preloader" class="fixed inset-0 z-[9999] bg-[#f4f7f6] flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+        <div class="relative w-32 h-32 flex items-center justify-center animate-pulse">
+            <!-- Pulsing circles -->
+            <div class="absolute inset-0 border-4 border-brand-accent rounded-full opacity-20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+            <div class="absolute inset-2 border-4 border-brand-green rounded-full opacity-40 animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+            <!-- Logo -->
+            <img src="assets/images/logo_0045.webp" alt="Stackly Logo" class="w-16 h-16 object-contain relative z-10 drop-shadow-md">
+        </div>
+        <div class="mt-4 text-brand-green font-bold text-sm tracking-widest uppercase animate-bounce">Loading...</div>
+    </div>
+
+
+    <div class="flex flex-col lg:flex-row h-screen w-full">
+        
+        <!-- Left: Authentication Panel -->
+        <div class="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-16 lg:px-24 xl:px-32 relative h-full overflow-y-auto z-10 bg-white shadow-[20px_0_50px_rgba(0,0,0,0.05)]">
+
+            <div class="w-full max-w-md mx-auto py-20 lg:py-0">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-3 mb-10">
+                    <div class="h-10 w-40 relative flex items-center justify-start">
+<img src="assets/images/logo_0045.webp" alt="Logo" class="w-full h-full object-contain">
+                    </div>
+                    
+                </div>
+
+                <!-- Header -->
+                <h1 class="text-3xl sm:text-4xl font-bold font-serif text-brand-green mb-3">Welcome Back</h1>
+                <p class="text-gray-500 mb-8">Log in to access your HR dashboard and manage your workforce.</p>
+
+                <!-- Role Selector -->
+                <div class="bg-gray-100 p-1.5 rounded-xl flex items-center justify-between mb-8 relative">
+                    <!-- Sliding Background Indicator -->
+                    <div id="roleIndicator" class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-brand-accent rounded-lg shadow-sm transition-all duration-300 ease-out"></div>
+                    
+                    <button type="button" id="btnClient" class="w-1/2 py-2.5 text-sm font-bold text-white relative z-10 transition-colors">Client</button>
+                    <button type="button" id="btnAdmin" class="w-1/2 py-2.5 text-sm font-bold text-gray-500 relative z-10 transition-colors">Admin</button>
+                    
+                    <!-- Hidden input to store role -->
+                    <input type="hidden" id="selectedRole" value="client">
+                </div>
+
+                <!-- Form -->
+                <form id="loginForm" class="space-y-6">
+                    
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-bold text-brand-dark mb-2">Work Email</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-regular fa-envelope"></i>
+                            </div>
+                            <input type="email" id="email" class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-green focus:bg-white transition" placeholder="name@company.com" required>
+                        </div>
+                        <p id="emailError" class="text-red-500 text-xs font-bold mt-1 hidden">Please enter a valid email address.</p>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label for="password" class="block text-sm font-bold text-brand-dark">Password</label>
+                            <a href="404.html" class="text-xs font-bold text-brand-green hover:text-brand-dark transition">Forgot Password?</a>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <input type="password" id="password" class="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-brand-green focus:bg-white transition" placeholder="********" required>
+                            <!-- Toggle Button -->
+                            <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-brand-green transition focus:outline-none" onclick="window.location.href='404.html'">
+                                <i class="fa-regular fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                        <p id="passwordError" class="text-red-500 text-xs font-bold mt-1 hidden">Password must be at least 8 characters.</p>
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" class="w-4 h-4 text-brand-green bg-gray-50 border-gray-300 rounded focus:ring-brand-green focus:ring-2 cursor-pointer">
+                        <label for="remember" class="ml-2 text-sm font-medium text-gray-600 cursor-pointer">Remember me for 30 days</label>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="w-full py-4 bg-brand-green text-white font-bold rounded-xl hover:bg-brand-dark transition duration-300 shadow-[0_10px_20px_rgba(0,79,68,0.15)] flex items-center justify-center gap-2 group">
+                        Sign In 
+                    </button>
+
+                </form>
+
+
+                <!-- Social Login Divider -->
+                <div class="mt-8 flex items-center justify-between">
+                    <span class="w-1/5 border-b border-gray-200 lg:w-1/4"></span>
+                    <span class="text-xs text-center text-gray-500 uppercase font-bold tracking-wider">or sign in with</span>
+                    <span class="w-1/5 border-b border-gray-200 lg:w-1/4"></span>
+                </div>
+
+                <!-- Social Media Icons -->
+                <div class="mt-6 flex justify-center gap-4">
+                    <a href="404.html" class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 hover:border-brand-green hover:bg-brand-light text-gray-600 hover:text-brand-green transition duration-300">
+                        <i class="fa-brands fa-google text-lg"></i>
+                    </a>
+                    <a href="404.html" class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 hover:border-brand-green hover:bg-brand-light text-gray-600 hover:text-brand-green transition duration-300">
+                        <i class="fa-brands fa-linkedin-in text-lg"></i>
+                    </a>
+                    <a href="404.html" class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 hover:border-brand-green hover:bg-brand-light text-gray-600 hover:text-brand-green transition duration-300">
+                        <i class="fa-brands fa-microsoft text-lg"></i>
+                    </a>
+                </div>
+
+                <!-- Footer Text -->
+                <p class="mt-8 text-center text-sm text-gray-500">
+                    Don't have an account? 
+                    <a href="signup.html" class="font-bold text-brand-green hover:text-brand-dark transition">Create an Account</a>
+                </p>
+
+                <div class="mt-8 flex justify-center">
+                    <a href="index.html" class="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-brand-green transition group">
+                        <i class="fa-solid fa-arrow-left transform group-hover:-translate-x-1 transition"></i> Back to Home
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right: Visual Panel -->
+        <div class="hidden lg:block lg:w-1/2 relative bg-[#09100d]">
+            <img src="assets/images/image_5.webp" alt="HR Professional" class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-green via-brand-green/80 to-transparent mix-blend-multiply"></div>
+            
+            <!-- Content overlay -->
+            <div class="absolute inset-0 p-16 xl:p-24 flex flex-col justify-end">
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl max-w-lg">
+                    <div class="flex items-center gap-1 text-brand-yellow mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <h2 class="text-3xl font-serif font-bold text-white mb-4 leading-snug">"Stackly transformed how we manage our entire workforce. It's an indispensable tool."</h2>
+                    <div class="flex items-center gap-4">
+                        <img src="assets/images/image_3.webp" alt="Client" class="w-12 h-12 rounded-full object-cover border-2 border-white/20">
+                        <div>
+                            <p class="text-white font-bold text-sm">Elena Rodriguez</p>
+                            <p class="text-white/70 text-xs">VP of Operations, Global Retail</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript for Password Toggle & Role Selection -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Password Toggle
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                if (type === 'text') {
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                }
+            });
+
+            // Role Selection Logic
+            const btnClient = document.getElementById('btnClient');
+            const btnAdmin = document.getElementById('btnAdmin');
+            const roleIndicator = document.getElementById('roleIndicator');
+            const selectedRole = document.getElementById('selectedRole');
+
+            btnClient.addEventListener('click', () => {
+                selectedRole.value = 'client';
+                roleIndicator.style.transform = 'translateX(0)';
+                btnClient.classList.replace('text-gray-500', 'text-white');
+                btnAdmin.classList.replace('text-white', 'text-gray-500');
+            });
+
+            btnAdmin.addEventListener('click', () => {
+                selectedRole.value = 'admin';
+                roleIndicator.style.transform = 'translateX(100%)';
+                btnAdmin.classList.replace('text-gray-500', 'text-white');
+                btnClient.classList.replace('text-white', 'text-gray-500');
+            });
+
+            // Form Submission Routing & Validation
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent page reload
+                
+                const email = document.getElementById('email');
+                const password = document.getElementById('password');
+                const emailError = document.getElementById('emailError');
+                const passwordError = document.getElementById('passwordError');
+                
+                let isValid = true;
+
+                // Email validation
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email.value)) {
+                    email.classList.add('border-red-500');
+                    email.classList.remove('border-gray-200');
+                    emailError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    email.classList.remove('border-red-500');
+                    email.classList.add('border-gray-200');
+                    emailError.classList.add('hidden');
+                }
+
+                // Password validation
+                if (password.value.length < 8) {
+                    password.classList.add('border-red-500');
+                    password.classList.remove('border-gray-200');
+                    passwordError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    password.classList.remove('border-red-500');
+                    password.classList.add('border-gray-200');
+                    passwordError.classList.add('hidden');
+                }
+                
+                if (isValid) {
+                    // Save email dynamically to localStorage
+                    localStorage.setItem('userEmail', email.value);
+                    
+                    const role = selectedRole.value;
+                    if (role === 'admin') {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        window.location.href = 'client-dashboard.html';
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Preloader Script -->
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('stackly-preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 700);
+            }
+        });
+    </script>
+</body>
+</html>

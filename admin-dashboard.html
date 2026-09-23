@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hirxpert</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: { green: '#004f44', yellow: '#f9d371', dark: '#1a1a1a', light: '#f4f7f6', accent: '#00a877' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-brand-dark bg-gray-50 flex h-screen overflow-hidden">
+
+    <!-- Preloader -->
+    <div id="stackly-preloader" class="fixed inset-0 z-[9999] bg-[#f4f7f6] flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+        <div class="relative w-32 h-32 flex items-center justify-center animate-pulse">
+            <!-- Pulsing circles -->
+            <div class="absolute inset-0 border-4 border-brand-accent rounded-full opacity-20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+            <div class="absolute inset-2 border-4 border-brand-green rounded-full opacity-40 animate-[ping_2.5s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+            <!-- Logo -->
+            <img src="assets/images/logo_0045.webp" alt="Stackly Logo" class="w-16 h-16 object-contain relative z-10 drop-shadow-md">
+        </div>
+        <div class="mt-4 text-brand-green font-bold text-sm tracking-widest uppercase animate-bounce">Loading...</div>
+    </div>
+
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-brand-dark text-white flex flex-col h-full flex-shrink-0 transition-all duration-300 relative z-20">
+        <!-- Logo -->
+        <div class="h-20 flex items-center gap-3 px-6 border-b border-gray-800">
+            <div class="h-8 w-32 relative flex items-center justify-start">
+<img src="assets/images/logo_0045.webp" alt="Logo" class="w-full h-full object-contain">
+            </div>
+            
+        </div>
+
+        <!-- Nav Links -->
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1" id="sidebarNav">
+            <a href="404.html" data-target="dashboard" class="sidebar-link flex items-center gap-3 px-4 py-3 bg-brand-green rounded-xl text-white font-bold transition">
+                <i class="fa-solid fa-chart-pie w-5"></i> Overview
+            </a>
+            <a href="404.html" data-target="clients" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl font-medium transition">
+                <i class="fa-solid fa-building w-5"></i> Clients
+            </a>
+            <a href="404.html" data-target="employees" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl font-medium transition">
+                <i class="fa-solid fa-users w-5"></i> Employees
+            </a>
+            <a href="404.html" data-target="payroll" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl font-medium transition">
+                <i class="fa-solid fa-file-invoice-dollar w-5"></i> Payroll
+            </a>
+            <a href="404.html" data-target="reports" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl font-medium transition">
+                <i class="fa-solid fa-file-contract w-5"></i> Reports
+            </a>
+            <a href="404.html" data-target="settings" class="sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl font-medium transition">
+                <i class="fa-solid fa-gear w-5"></i> Settings
+            </a>
+        </nav>
+
+        <!-- Logout -->
+        <div class="p-4 border-t border-gray-800">
+            <a href="login.html" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl font-medium transition">
+                <i class="fa-solid fa-right-from-bracket w-5"></i> Sign Out
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden">
+        
+        <!-- Topbar -->
+        <header class="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-8 flex-shrink-0 relative z-10 shadow-sm">
+            
+            <!-- Search -->
+            <div class="relative hidden md:block w-96">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" placeholder="Search clients, employees..." class="w-full bg-gray-50 border border-gray-200 rounded-full pl-11 pr-4 py-2.5 focus:outline-none focus:border-brand-green transition text-sm">
+            </div>
+
+            <div class="flex items-center gap-6 ml-auto">
+                
+                <!-- Notifications -->
+                <button class="relative text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                </button>
+
+                <!-- Profile -->
+                <div class="flex items-center gap-3 border-l border-gray-200 pl-6 cursor-pointer">
+                    <div class="w-10 h-10 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold text-sm" id="profileInitials">A</div>
+                    <div class="hidden sm:block text-sm">
+                        <p class="font-bold text-brand-dark leading-none truncate w-32" id="profileEmail" title="System Admin">System Admin</p>
+                        <p class="text-gray-500 text-xs mt-1">Super User</p>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- Dashboard Body -->
+        <div class="flex-1 overflow-y-auto p-8 relative">
+            
+            <!-- SECTION: Dashboard -->
+            <div id="dashboard" class="dashboard-section block">
+                <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold font-serif text-brand-green">Admin Overview</h1>
+                    <p class="text-gray-500 text-sm mt-1">Here's what's happening across all client accounts today.</p>
+                </div>
+                <button class="px-5 py-2.5 bg-brand-dark text-white text-sm font-bold rounded-lg hover:bg-brand-green transition shadow-lg flex items-center gap-2" onclick="window.location.href='404.html'">
+                    <i class="fa-solid fa-plus"></i> Add Client
+                </button>
+            </div>
+
+            <!-- Section 1: Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">Total Clients</p>
+                        <h3 class="text-2xl font-bold text-brand-green">124</h3>
+                        <p class="text-xs font-bold text-green-500 mt-2"><i class="fa-solid fa-arrow-up"></i> 12% this month</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-green-50 text-brand-green flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">Active Employees</p>
+                        <h3 class="text-2xl font-bold text-brand-green">14,205</h3>
+                        <p class="text-xs font-bold text-green-500 mt-2"><i class="fa-solid fa-arrow-up"></i> 4% this month</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">Pending Payroll</p>
+                        <h3 class="text-2xl font-bold text-brand-green">.4M</h3>
+                        <p class="text-xs font-bold text-gray-400 mt-2">To be processed today</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">System Alerts</p>
+                        <h3 class="text-2xl font-bold text-brand-green">3</h3>
+                        <p class="text-xs font-bold text-red-500 mt-2">Require attention</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
+                <!-- Left Column -->
+                <div class="xl:col-span-2 space-y-8">
+                    
+                    <!-- Section 2: Recent Activity Table -->
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="font-bold text-brand-green text-lg">Recent Client Activity</h3>
+                            <a href="404.html" class="text-sm font-bold text-brand-green hover:text-brand-dark transition">View All</a>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                        <th class="px-6 py-4 font-bold">Client / Company</th>
+                                        <th class="px-6 py-4 font-bold">Action</th>
+                                        <th class="px-6 py-4 font-bold">Status</th>
+                                        <th class="px-6 py-4 font-bold text-right">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm divide-y divide-gray-100">
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600">TF</div>
+                                                <span class="font-bold text-brand-dark">TechFlow Inc.</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-600">Onboarded 5 new employees</td>
+                                        <td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Completed</span></td>
+                                        <td class="px-6 py-4 text-right text-gray-500">Today, 10:24 AM</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600">GL</div>
+                                                <span class="font-bold text-brand-dark">Global Logistics</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-600">Requested Payroll Review</td>
+                                        <td class="px-6 py-4"><span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold">Pending</span></td>
+                                        <td class="px-6 py-4 text-right text-gray-500">Yesterday, 04:12 PM</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Platform Analytics -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                            <h2 class="text-lg font-bold text-brand-green">Platform Growth (Q4)</h2>
+                            <span class="text-sm font-bold text-brand-green bg-brand-light px-3 py-1 rounded-full">+18% Revenue</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">New Client MRR</p>
+                                <h3 class="text-xl font-bold text-brand-green">,500</h3>
+                                <div class="w-full bg-gray-100 rounded-full h-1.5 mt-2"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 75%"></div></div>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Seat Expansions</p>
+                                <h3 class="text-xl font-bold text-brand-green">850 Users</h3>
+                                <div class="w-full bg-gray-100 rounded-full h-1.5 mt-2"><div class="bg-green-500 h-1.5 rounded-full" style="width: 60%"></div></div>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Churn Rate</p>
+                                <h3 class="text-xl font-bold text-brand-green">1.2%</h3>
+                                <div class="w-full bg-gray-100 rounded-full h-1.5 mt-2"><div class="bg-red-400 h-1.5 rounded-full" style="width: 12%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-8">
+                    
+                    <!-- Section 4: Quick Admin Actions -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <h2 class="text-lg font-bold text-brand-green mb-4">Quick Actions</h2>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-brand-light rounded-xl border border-gray-100 hover:border-brand-green transition group" onclick="window.location.href='404.html'">
+                                <i class="fa-solid fa-building text-xl text-gray-400 group-hover:text-brand-green mb-2 transition"></i>
+                                <span class="text-xs font-bold text-brand-dark">Add Client</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-brand-light rounded-xl border border-gray-100 hover:border-brand-green transition group" onclick="window.location.href='404.html'">
+                                <i class="fa-solid fa-file-invoice-dollar text-xl text-gray-400 group-hover:text-brand-green mb-2 transition"></i>
+                                <span class="text-xs font-bold text-brand-dark">Run Payroll</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-brand-light rounded-xl border border-gray-100 hover:border-brand-green transition group" onclick="window.location.href='404.html'">
+                                <i class="fa-solid fa-shield-halved text-xl text-gray-400 group-hover:text-brand-green mb-2 transition"></i>
+                                <span class="text-xs font-bold text-brand-dark">Compliance</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-brand-light rounded-xl border border-gray-100 hover:border-brand-green transition group" onclick="window.location.href='404.html'">
+                                <i class="fa-solid fa-bullhorn text-xl text-gray-400 group-hover:text-brand-green mb-2 transition"></i>
+                                <span class="text-xs font-bold text-brand-dark">Broadcast</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: System Alerts -->
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <h2 class="text-lg font-bold text-brand-green mb-4">System Alerts</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-xl border border-red-100">
+                                <i class="fa-solid fa-triangle-exclamation text-red-500 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-red-700 text-xs">API Rate Limit Warning</h4>
+                                    <p class="text-[10px] text-red-600 mt-0.5">Global Logistics hit 90% of API capacity.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-yellow-50 rounded-xl border border-yellow-100">
+                                <i class="fa-solid fa-shield text-yellow-600 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-yellow-700 text-xs">Compliance Update Required</h4>
+                                    <p class="text-[10px] text-yellow-600 mt-0.5">3 clients need to sign new privacy policy.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                <i class="fa-solid fa-server text-gray-400 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-brand-green text-xs">Server Maintenance</h4>
+                                    <p class="text-[10px] text-gray-500 mt-0.5">Scheduled for Sunday 2:00 AM EST.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </div> <!-- End Dashboard Section -->
+
+            <!-- SECTION: Clients -->
+            <div id="clients" class="dashboard-section hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold font-serif text-brand-green">Client Management</h1>
+                        <p class="text-gray-500 text-sm mt-1">Onboard, manage, and analyze active client accounts.</p>
+                    </div>
+                    <button class="px-5 py-2.5 bg-brand-green text-white text-sm font-bold rounded-lg hover:bg-brand-dark transition shadow-lg flex items-center gap-2" onclick="window.location.href='404.html'">
+                        <i class="fa-solid fa-plus"></i> New Client
+                    </button>
+                </div>
+
+                <!-- Section 1: Client Analytics Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-building-circle-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Active Accounts</p>
+                            <h3 class="text-2xl font-bold text-brand-green">124</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Avg. Client MRR</p>
+                            <h3 class="text-2xl font-bold text-brand-green">,250</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">In Onboarding</p>
+                            <h3 class="text-2xl font-bold text-brand-green">6</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Filters & Search -->
+                <div class="bg-white p-4 rounded-t-2xl border-t border-l border-r border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex gap-2 w-full md:w-auto overflow-x-auto">
+                        <button class="px-4 py-2 bg-brand-dark text-white text-sm font-bold rounded-lg whitespace-nowrap" onclick="window.location.href='404.html'">All Clients</button>
+                        <button class="px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-100 text-sm font-bold rounded-lg whitespace-nowrap transition" onclick="window.location.href='404.html'">Enterprise</button>
+                        <button class="px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-100 text-sm font-bold rounded-lg whitespace-nowrap transition" onclick="window.location.href='404.html'">Pro</button>
+                        <button class="px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-100 text-sm font-bold rounded-lg whitespace-nowrap transition" onclick="window.location.href='404.html'">At Risk</button>
+                    </div>
+                    <div class="relative w-full md:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                        <input type="text" placeholder="Search clients..." class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-4 py-2 focus:outline-none focus:border-brand-green transition text-sm">
+                    </div>
+                </div>
+
+                <!-- Section 3: Client Directory Table -->
+                <div class="bg-white rounded-b-2xl border border-gray-100 shadow-sm overflow-hidden mb-8">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                    <th class="px-6 py-4 font-bold">Company Name</th>
+                                    <th class="px-6 py-4 font-bold">Industry</th>
+                                    <th class="px-6 py-4 font-bold">Plan Tier</th>
+                                    <th class="px-6 py-4 font-bold">Status</th>
+                                    <th class="px-6 py-4 font-bold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded bg-brand-dark text-white flex items-center justify-center font-bold text-xs">TF</div>
+                                            <span class="font-bold text-brand-dark">TechFlow Inc.</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600">Technology</td>
+                                    <td class="px-6 py-4 text-gray-500">Enterprise</td>
+                                    <td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Healthy</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs">GL</div>
+                                            <span class="font-bold text-brand-dark">Global Logistics</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600">Transportation</td>
+                                    <td class="px-6 py-4 text-gray-500">Pro</td>
+                                    <td class="px-6 py-4"><span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold">Needs Review</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs">NX</div>
+                                            <span class="font-bold text-brand-dark">Nexus Retail</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600">Retail & E-commerce</td>
+                                    <td class="px-6 py-4 text-gray-500">Enterprise</td>
+                                    <td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Healthy</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <!-- Section 4: Recent Onboarding -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-bold text-brand-green">Recent Onboarding</h2>
+                            <a href="404.html" class="text-sm font-bold text-brand-green hover:text-brand-dark transition">View Queue</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-5">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded bg-blue-50 flex items-center justify-center font-bold text-blue-600 text-sm">AM</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-brand-green text-sm">Acme Manufacturing</h4>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 mt-2"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 80%"></div></div>
+                                </div>
+                                <span class="text-xs font-bold text-gray-500">80%</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded bg-purple-50 flex items-center justify-center font-bold text-purple-600 text-sm">SZ</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-brand-green text-sm">Summit Zenith</h4>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 mt-2"><div class="bg-purple-500 h-1.5 rounded-full" style="width: 45%"></div></div>
+                                </div>
+                                <span class="text-xs font-bold text-gray-500">45%</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded bg-orange-50 flex items-center justify-center font-bold text-orange-600 text-sm">QC</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-brand-green text-sm">Quantum Corp</h4>
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 mt-2"><div class="bg-orange-500 h-1.5 rounded-full" style="width: 15%"></div></div>
+                                </div>
+                                <span class="text-xs font-bold text-gray-500">15%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Subscription Health -->
+                    <div>
+                        <h2 class="text-lg font-bold text-brand-green mb-4">Subscription Breakdown</h2>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <p class="text-sm text-gray-500 mb-6">Distribution of clients across service tiers.</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-bold text-brand-dark">Enterprise Plan</span>
+                                        <span class="font-bold text-brand-green">65% (80 clients)</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-brand-green h-2 rounded-full" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-bold text-brand-dark">Pro Plan</span>
+                                        <span class="font-bold text-blue-500">25% (31 clients)</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 25%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-bold text-brand-dark">Starter Plan</span>
+                                        <span class="font-bold text-gray-400">10% (13 clients)</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-gray-400 h-2 rounded-full" style="width: 10%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION: Employees -->
+            <div id="employees" class="dashboard-section hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold font-serif text-brand-green">Global Employee Database</h1>
+                        <p class="text-gray-500 text-sm mt-1">Cross-client employee search, management, and HR requests.</p>
+                    </div>
+                    <button class="px-5 py-2.5 bg-brand-green text-white text-sm font-bold rounded-lg hover:bg-brand-dark transition shadow-lg flex items-center gap-2" onclick="window.location.href='404.html'">
+                        <i class="fa-solid fa-user-plus"></i> Import Employees
+                    </button>
+                </div>
+
+                <!-- Section 1: Global Workforce Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-users-viewfinder"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Total Headcount</p>
+                            <h3 class="text-2xl font-bold text-brand-green">14,205</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">New Hires (YTD)</p>
+                            <h3 class="text-2xl font-bold text-brand-green">1,842</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-xl shrink-0">
+                            
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Turnover Rate</p>
+                            <h3 class="text-2xl font-bold text-brand-green">4.2%</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Advanced Filters & Search -->
+                <div class="bg-white p-4 rounded-t-2xl border-t border-l border-r border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex gap-2 w-full md:w-auto overflow-x-auto">
+                        <select class="px-4 py-2 bg-gray-50 border border-gray-200 text-gray-600 text-sm font-bold rounded-lg focus:outline-none focus:border-brand-green transition">
+                            <option>All Clients</option>
+                            <option>TechFlow Inc.</option>
+                            <option>Global Logistics</option>
+                            <option>Nexus Retail</option>
+                        </select>
+                        <select class="px-4 py-2 bg-gray-50 border border-gray-200 text-gray-600 text-sm font-bold rounded-lg focus:outline-none focus:border-brand-green transition">
+                            <option>All Departments</option>
+                            <option>Engineering</option>
+                            <option>Sales</option>
+                            <option>HR & Ops</option>
+                        </select>
+                    </div>
+                    <div class="relative w-full md:w-80">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                        <input type="text" placeholder="Search by name, email, or ID..." class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-4 py-2 focus:outline-none focus:border-brand-green transition text-sm">
+                    </div>
+                </div>
+
+                <!-- Section 3: Global Employee Directory -->
+                <div class="bg-white rounded-b-2xl border border-gray-100 shadow-sm overflow-hidden mb-8">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                    <th class="px-6 py-4 font-bold">Employee</th>
+                                    <th class="px-6 py-4 font-bold">Client / Company</th>
+                                    <th class="px-6 py-4 font-bold">Role</th>
+                                    <th class="px-6 py-4 font-bold">Status</th>
+                                    <th class="px-6 py-4 font-bold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <img src="assets/images/image_3.webp" class="w-8 h-8 rounded-full object-cover">
+                                            <div>
+                                                <p class="font-bold text-brand-dark">Elena Rodriguez</p>
+                                                <p class="text-xs text-gray-500">ID: EMP-8492</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600 font-bold">TechFlow Inc.</td>
+                                    <td class="px-6 py-4 text-gray-500">Product Manager</td>
+                                    <td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Active</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center font-bold text-brand-green text-xs">JS</div>
+                                            <div>
+                                                <p class="font-bold text-brand-dark">James Smith</p>
+                                                <p class="text-xs text-gray-500">ID: EMP-1023</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600 font-bold">Global Logistics</td>
+                                    <td class="px-6 py-4 text-gray-500">Operations Director</td>
+                                    <td class="px-6 py-4"><span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold">On Leave</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center font-bold text-brand-green text-xs">AW</div>
+                                            <div>
+                                                <p class="font-bold text-brand-dark">Amanda Wright</p>
+                                                <p class="text-xs text-gray-500">ID: EMP-9921</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600 font-bold">Nexus Retail</td>
+                                    <td class="px-6 py-4 text-gray-500">Store Manager</td>
+                                    <td class="px-6 py-4"><span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">Terminated</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <!-- Section 4: Recent HR Requests -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-bold text-brand-green">Cross-Client HR Requests</h2>
+                            <a href="404.html" class="text-sm font-bold text-brand-green hover:text-brand-dark transition">View Inbox</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-5">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center font-bold text-orange-600 shrink-0"><i class="fa-solid fa-plane"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <h4 class="font-bold text-brand-green text-sm">Extended Leave Request</h4>
+                                        <span class="text-[10px] text-gray-400">1h ago</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mb-2">James Smith (Global Logistics) requested 6 weeks of medical leave. Requires admin overrides.</p>
+                                    <button class="text-xs font-bold text-brand-green hover:text-brand-dark transition" onclick="window.location.href='404.html'">Review Request</button>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center font-bold text-blue-600 shrink-0"><i class="fa-solid fa-file-signature"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <h4 class="font-bold text-brand-green text-sm">Contract Update</h4>
+                                        <span class="text-[10px] text-gray-400">3h ago</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mb-2">Elena Rodriguez (TechFlow Inc.) requires a visa sponsorship letter generated.</p>
+                                    <button class="text-xs font-bold text-brand-green hover:text-brand-dark transition" onclick="window.location.href='404.html'">Generate Document</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Workforce Distribution -->
+                    <div>
+                        <h2 class="text-lg font-bold text-brand-green mb-4">Workforce Distribution</h2>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <p class="text-sm text-gray-500 mb-6">Distribution of active employees across your top clients.</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-bold text-brand-dark">Global Logistics</span>
+                                        <span class="font-bold text-brand-green">4,200</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-brand-green h-2 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-bold text-brand-dark">Nexus Retail</span>
+                                        <span class="font-bold text-blue-500">3,150</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 60%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-bold text-brand-dark">TechFlow Inc.</span>
+                                        <span class="font-bold text-purple-500">850</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-purple-500 h-2 rounded-full" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-bold text-gray-500">Other Clients (Combined)</span>
+                                        <span class="font-bold text-gray-400">6,005</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-gray-300 h-2 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION: Payroll -->
+            <div id="payroll" class="dashboard-section hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold font-serif text-brand-green">Global Payroll Center</h1>
+                        <p class="text-gray-500 text-sm mt-1">Manage, approve, and execute cross-client payroll cycles.</p>
+                    </div>
+                    <button class="px-5 py-2.5 bg-brand-green text-white text-sm font-bold rounded-lg hover:bg-brand-dark transition shadow-lg flex items-center gap-2" onclick="window.location.href='404.html'">
+                        <i class="fa-solid fa-play"></i> Execute Batch
+                    </button>
+                </div>
+
+                <!-- Section 1: Payroll Analytics Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Processed (YTD)</p>
+                            <h3 class="text-2xl font-bold text-brand-green">.5M</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Pending Approval</p>
+                            <h3 class="text-2xl font-bold text-brand-green">.4M</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium mb-1">Taxes Withheld (YTD)</p>
+                            <h3 class="text-2xl font-bold text-brand-green">.2M</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
+                    
+                    <!-- Left Column -->
+                    <div class="xl:col-span-2 space-y-8">
+                        
+                        <!-- Section 2: Upcoming Pay Runs -->
+                        <div>
+                            <h2 class="text-lg font-bold text-brand-green mb-4">Upcoming Pay Runs</h2>
+                            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                                <div class="p-6 border-b border-gray-100 hover:bg-gray-50 transition">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div>
+                                            <h4 class="font-bold text-brand-green text-base">Global Logistics - Oct 30 Cycle</h4>
+                                            <p class="text-xs text-gray-500 mt-1">4,200 Employees � Total: .8M</p>
+                                        </div>
+                                        <button class="px-4 py-1.5 bg-brand-green text-white text-xs font-bold rounded-lg hover:bg-brand-dark transition" onclick="window.location.href='404.html'">Review Data</button>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2 mb-2">
+                                        <div class="bg-brand-green h-2 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs font-bold">
+                                        <span class="text-brand-green">Timesheets Approved (90%)</span>
+                                        <span class="text-gray-500">Processing in 2 days</span>
+                                    </div>
+                                </div>
+                                <div class="p-6 hover:bg-gray-50 transition">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div>
+                                            <h4 class="font-bold text-brand-green text-base">TechFlow Inc. - Nov 01 Cycle</h4>
+                                            <p class="text-xs text-gray-500 mt-1">850 Employees � Total: </p>
+                                        </div>
+                                        <button class="px-4 py-1.5 bg-white border border-gray-200 text-gray-600 text-xs font-bold rounded-lg hover:bg-gray-50 transition" onclick="window.location.href='404.html'">Send Reminder</button>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2 mb-2">
+                                        <div class="bg-orange-400 h-2 rounded-full" style="width: 40%"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs font-bold">
+                                        <span class="text-orange-500">Awaiting Manager Approvals (40%)</span>
+                                        <span class="text-gray-500">Processing in 4 days</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Recent Transactions Table -->
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-bold text-brand-green">Recent Transactions</h2>
+                                <a href="404.html" class="text-sm font-bold text-brand-green hover:text-brand-dark transition">Export CSV</a>
+                            </div>
+                            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                                <th class="px-6 py-4 font-bold">Transaction ID</th>
+                                                <th class="px-6 py-4 font-bold">Client</th>
+                                                <th class="px-6 py-4 font-bold">Amount</th>
+                                                <th class="px-6 py-4 font-bold">Status</th>
+                                                <th class="px-6 py-4 font-bold text-right">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-sm divide-y divide-gray-100">
+                                            <tr class="hover:bg-gray-50 transition">
+                                                <td class="px-6 py-4 text-gray-500 font-mono text-xs">TRX-948271</td>
+                                                <td class="px-6 py-4 font-bold text-brand-dark">Nexus Retail</td>
+                                                <td class="px-6 py-4 font-bold text-gray-600">,240,500.00</td>
+                                                <td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Settled</span></td>
+                                                <td class="px-6 py-4 text-right text-gray-500">Today, 08:30 AM</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50 transition">
+                                                <td class="px-6 py-4 text-gray-500 font-mono text-xs">TRX-948270</td>
+                                                <td class="px-6 py-4 font-bold text-brand-dark">Acme Mfg</td>
+                                                <td class="px-6 py-4 font-bold text-gray-600">,200.00</td>
+                                                <td class="px-6 py-4"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Settled</span></td>
+                                                <td class="px-6 py-4 text-right text-gray-500">Yesterday, 04:15 PM</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50 transition">
+                                                <td class="px-6 py-4 text-gray-500 font-mono text-xs">TRX-948269</td>
+                                                <td class="px-6 py-4 font-bold text-brand-dark">IRS Tax Remittance</td>
+                                                <td class="px-6 py-4 font-bold text-gray-600">,100.00</td>
+                                                <td class="px-6 py-4"><span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">Processing</span></td>
+                                                <td class="px-6 py-4 text-right text-gray-500">Yesterday, 10:00 AM</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="space-y-8">
+                        
+                        <!-- Section 4: Funding Status -->
+                        <div class="bg-brand-dark p-6 rounded-2xl border border-brand-green/20 shadow-lg text-white">
+                            <h2 class="text-lg font-bold mb-6">Funding Status</h2>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <div class="flex justify-between items-end mb-2">
+                                        <span class="text-sm text-gray-400">Available Balance</span>
+                                        <span class="text-xl font-bold text-brand-yellow">.2M</span>
+                                    </div>
+                                    <div class="w-full bg-white/10 rounded-full h-1.5"><div class="bg-brand-yellow h-1.5 rounded-full" style="width: 100%"></div></div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between items-end mb-2">
+                                        <span class="text-sm text-gray-400">Required for Payroll</span>
+                                        <span class="text-lg font-bold text-white">.4M</span>
+                                    </div>
+                                    <div class="w-full bg-white/10 rounded-full h-1.5"><div class="bg-blue-400 h-1.5 rounded-full" style="width: 60%"></div></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 pt-6 border-t border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center shrink-0"><i class="fa-solid fa-check"></i></div>
+                                    <p class="text-sm text-gray-300">Sufficient funds available for upcoming batches.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 5: Tax & Compliance Alerts -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <h2 class="text-lg font-bold text-brand-green mb-4">Tax & Compliance</h2>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3 p-3 bg-red-50 rounded-xl border border-red-100">
+                                    <i class="fa-solid fa-file-invoice text-red-500 mt-0.5"></i>
+                                    <div>
+                                        <h4 class="font-bold text-red-700 text-xs">Missing Tax Forms</h4>
+                                        <p class="text-[10px] text-red-600 mt-0.5">42 employees missing W-4 updates.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-yellow-50 rounded-xl border border-yellow-100">
+                                    <i class="fa-solid fa-building-columns text-yellow-600 mt-0.5"></i>
+                                    <div>
+                                        <h4 class="font-bold text-yellow-700 text-xs">Rate Change Pending</h4>
+                                        <p class="text-[10px] text-yellow-600 mt-0.5">California state tax rate adjustment effective Nov 1st.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                    <i class="fa-solid fa-calendar-check text-gray-400 mt-0.5"></i>
+                                    <div>
+                                        <h4 class="font-bold text-brand-green text-xs">Q3 Tax Filings</h4>
+                                        <p class="text-[10px] text-gray-500 mt-0.5">Successfully submitted to IRS.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION: Reports -->
+            <div id="reports" class="dashboard-section hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold font-serif text-brand-green">Analytics & Reports</h1>
+                        <p class="text-gray-500 text-sm mt-1">Generate, schedule, and export system-wide data reports.</p>
+                    </div>
+                    <button class="px-5 py-2.5 bg-brand-green text-white text-sm font-bold rounded-lg hover:bg-brand-dark transition shadow-lg flex items-center gap-2" onclick="window.location.href='404.html'">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Custom Builder
+                    </button>
+                </div>
+
+                <!-- Section 1: Standard Report Generators -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-bold text-brand-green mb-4">Standard Reports</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-green transition cursor-pointer group">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                            <h4 class="font-bold text-brand-green text-sm mb-1">Payroll Summary</h4>
+                            <p class="text-xs text-gray-500 mb-4">Comprehensive breakdown of client payroll runs.</p>
+                            <span class="text-xs font-bold text-brand-green">Generate &rarr;</span>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-green transition cursor-pointer group">
+                            <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-users"></i></div>
+                            <h4 class="font-bold text-brand-green text-sm mb-1">Headcount & Attrition</h4>
+                            <p class="text-xs text-gray-500 mb-4">Employee growth and turnover analytics.</p>
+                            <span class="text-xs font-bold text-brand-green">Generate &rarr;</span>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-green transition cursor-pointer group">
+                            <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-shield-halved"></i></div>
+                            <h4 class="font-bold text-brand-green text-sm mb-1">Compliance Audit</h4>
+                            <p class="text-xs text-gray-500 mb-4">Tax form and policy signature status.</p>
+                            <span class="text-xs font-bold text-brand-green">Generate &rarr;</span>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-brand-green transition cursor-pointer group">
+                            <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-4 group-hover:scale-110 transition"><i class="fa-solid fa-chart-pie"></i></div>
+                            <h4 class="font-bold text-brand-green text-sm mb-1">Client Revenue</h4>
+                            <p class="text-xs text-gray-500 mb-4">MRR, expansions, and platform billing data.</p>
+                            <span class="text-xs font-bold text-brand-green">Generate &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
+                    
+                    <!-- Left Column -->
+                    <div class="xl:col-span-2 space-y-8">
+                        
+                        <!-- Section 2: Recent Downloads Table -->
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-bold text-brand-green">Recent Exports</h2>
+                            </div>
+                            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                                <th class="px-6 py-4 font-bold">Report Name</th>
+                                                <th class="px-6 py-4 font-bold">Format</th>
+                                                <th class="px-6 py-4 font-bold">Generated By</th>
+                                                <th class="px-6 py-4 font-bold text-right">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-sm divide-y divide-gray-100">
+                                            <tr class="hover:bg-gray-50 transition">
+                                                <td class="px-6 py-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <i class="fa-solid fa-file-csv text-green-600 text-lg"></i>
+                                                        <span class="font-bold text-brand-dark">Q3_Payroll_Global.csv</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 text-gray-600">CSV Spreadsheet</td>
+                                                <td class="px-6 py-4 text-gray-500">System (Auto)</td>
+                                                <td class="px-6 py-4 text-right text-gray-500">Today, 06:00 AM</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50 transition">
+                                                <td class="px-6 py-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <i class="fa-solid fa-file-pdf text-red-500 text-lg"></i>
+                                                        <span class="font-bold text-brand-dark">Compliance_Audit_Oct.pdf</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 text-gray-600">PDF Document</td>
+                                                <td class="px-6 py-4 text-gray-500">Admin User</td>
+                                                <td class="px-6 py-4 text-right text-gray-500">Yesterday, 14:30 PM</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50 transition">
+                                                <td class="px-6 py-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <i class="fa-solid fa-file-excel text-green-700 text-lg"></i>
+                                                        <span class="font-bold text-brand-dark">Client_Revenue_YTD.xlsx</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 text-gray-600">Excel Workbook</td>
+                                                <td class="px-6 py-4 text-gray-500">Admin User</td>
+                                                <td class="px-6 py-4 text-right text-gray-500">Oct 20, 2024</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Scheduled Reports -->
+                        <div>
+                            <h2 class="text-lg font-bold text-brand-green mb-4">Scheduled Deliveries</h2>
+                            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded bg-white border border-gray-200 flex flex-col items-center justify-center shrink-0">
+                                            <span class="text-[8px] font-bold text-gray-400 uppercase">Every</span>
+                                            <span class="text-sm font-bold text-brand-dark leading-none">MON</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-brand-green text-sm">Weekly Headcount Digest</h4>
+                                            <p class="text-xs text-gray-500">Emailed to executive team (execs@techflow.com)</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" value="" class="sr-only peer" checked>
+                                        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-green"></div>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded bg-white border border-gray-200 flex flex-col items-center justify-center shrink-0">
+                                            <span class="text-[8px] font-bold text-gray-400 uppercase">End of</span>
+                                            <span class="text-sm font-bold text-brand-dark leading-none">MTH</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-brand-green text-sm">Monthly Payroll Reconciliation</h4>
+                                            <p class="text-xs text-gray-500">Pushed to secure FTP server.</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" value="" class="sr-only peer" checked>
+                                        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-green"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="space-y-8">
+                        
+                        <!-- Section 4: Integration Exports -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <h2 class="text-lg font-bold text-brand-green mb-4">Accounting Sync</h2>
+                            <p class="text-xs text-gray-500 mb-4">Push payroll data directly to external accounting software.</p>
+                            <div class="space-y-3">
+                                <button class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-brand-light rounded-xl border border-gray-100 hover:border-brand-green transition group" onclick="window.location.href='404.html'">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-6 h-6 bg-green-600 rounded text-white flex items-center justify-center font-bold text-xs">QB</div>
+                                        <span class="text-sm font-bold text-brand-dark">QuickBooks Online</span>
+                                    </div>
+                                    <i class="fa-solid fa-cloud-arrow-up text-gray-400 group-hover:text-brand-green transition"></i>
+                                </button>
+                                <button class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-brand-light rounded-xl border border-gray-100 hover:border-brand-green transition group" onclick="window.location.href='404.html'">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-6 h-6 bg-blue-500 rounded text-white flex items-center justify-center font-bold text-xs">X</div>
+                                        <span class="text-sm font-bold text-brand-dark">Xero</span>
+                                    </div>
+                                    <i class="fa-solid fa-cloud-arrow-up text-gray-400 group-hover:text-brand-green transition"></i>
+                                </button>
+                                <button class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-brand-light rounded-xl border border-gray-100 hover:border-brand-green transition group" onclick="window.location.href='404.html'">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-6 h-6 bg-gray-800 rounded text-white flex items-center justify-center font-bold text-xs">NS</div>
+                                        <span class="text-sm font-bold text-brand-dark">NetSuite ERP</span>
+                                    </div>
+                                    <i class="fa-solid fa-cloud-arrow-up text-gray-400 group-hover:text-brand-green transition"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Section 5: Storage Usage -->
+                        <div class="bg-brand-dark p-6 rounded-2xl border border-brand-green/20 shadow-lg text-white">
+                            <h2 class="text-lg font-bold mb-4">Report Storage</h2>
+                            <p class="text-xs text-gray-400 mb-6">Historical reports are kept for 7 years for compliance.</p>
+                            
+                            <div>
+                                <div class="flex justify-between items-end mb-2">
+                                    <span class="text-sm text-gray-300">Space Used</span>
+                                    <span class="text-lg font-bold text-white">45.2 GB <span class="text-xs text-gray-400">/ 100 GB</span></span>
+                                </div>
+                                <div class="w-full bg-white/10 rounded-full h-2"><div class="bg-brand-green h-2 rounded-full" style="width: 45%"></div></div>
+                            </div>
+                            
+                            <button class="w-full py-2.5 mt-6 bg-white/10 text-white border border-white/20 text-sm font-bold rounded-lg hover:bg-white/20 transition" onclick="window.location.href='404.html'">Manage Storage</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION: Settings -->
+            <div id="settings" class="dashboard-section hidden">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold font-serif text-brand-green">Global System Settings</h1>
+                        <p class="text-gray-500 text-sm mt-1">Configure security, branding, and API access across the entire platform.</p>
+                    </div>
+                    <button class="px-5 py-2.5 bg-brand-green text-white text-sm font-bold rounded-lg hover:bg-brand-dark transition shadow-lg flex items-center gap-2" onclick="window.location.href='404.html'">
+                        <i class="fa-solid fa-floppy-disk"></i> Apply Global Changes
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Left Column (Wider) -->
+                    <div class="lg:col-span-2 space-y-8">
+                        
+                        <!-- Section 1: Global Security & Compliance -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <h2 class="text-lg font-bold text-brand-green mb-4">Security Policies</h2>
+                            <div class="space-y-6">
+                                <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                                    <div>
+                                        <h4 class="font-bold text-brand-green text-sm">Enforce Two-Factor Authentication (2FA)</h4>
+                                        <p class="text-xs text-gray-500 mt-1">Require all Client Admins to use 2FA on login.</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" value="" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                                    <div>
+                                        <h4 class="font-bold text-brand-green text-sm">Single Sign-On (SSO) Support</h4>
+                                        <p class="text-xs text-gray-500 mt-1">Allow clients to authenticate via SAML or Google Workspace.</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" value="" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                                    </label>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                                    <div>
+                                        <label class="block text-xs font-bold text-brand-dark mb-2">Password Expiry (Days)</label>
+                                        <select class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-green transition text-sm text-gray-600">
+                                            <option>90 Days</option>
+                                            <option>180 Days</option>
+                                            <option>Never Expire</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-brand-dark mb-2">Session Timeout</label>
+                                        <select class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-green transition text-sm text-gray-600">
+                                            <option>30 Minutes</option>
+                                            <option>1 Hour</option>
+                                            <option>4 Hours</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Global Admins & Permissions -->
+                        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                            <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+                                <h2 class="text-lg font-bold text-brand-green">Super Admin Access</h2>
+                                <button class="text-sm font-bold text-brand-green hover:text-brand-dark transition" onclick="window.location.href='404.html'">Invite Admin</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                                            <th class="px-6 py-4 font-bold">Admin User</th>
+                                            <th class="px-6 py-4 font-bold">Role Level</th>
+                                            <th class="px-6 py-4 font-bold text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-sm divide-y divide-gray-100">
+                                        <tr class="hover:bg-gray-50 transition">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold text-xs">A1</div>
+                                                    <span class="font-bold text-brand-dark">Master Administrator</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4"><span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold">Level 4 (Super)</span></td>
+                                            <td class="px-6 py-4 text-right">
+                                                <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50 transition">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">SV</div>
+                                                    <span class="font-bold text-brand-dark">Sarah Vance</span>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4"><span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">Level 3 (Support)</span></td>
+                                            <td class="px-6 py-4 text-right">
+                                                <button class="text-gray-400 hover:text-brand-green transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Section 5: API & Webhooks -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-bold text-brand-green">API & Webhooks</h2>
+                                <button class="text-sm font-bold text-brand-green hover:text-brand-dark transition" onclick="window.location.href='404.html'">Generate Key</button>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-6">Manage API keys used by external systems to query the global HR database.</p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 bg-gray-50 rounded-xl border border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div>
+                                        <h4 class="font-bold text-brand-green text-sm">Production Reporting API</h4>
+                                        <p class="text-[10px] text-gray-400 font-mono mt-1">pk_live_8f92j39x...84k2</p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs bg-green-100 text-green-700 font-bold px-2 py-1 rounded">Active</span>
+                                        <button class="text-gray-400 hover:text-brand-dark transition" onclick="window.location.href='404.html'"><i class="fa-regular fa-copy"></i></button>
+                                        <button class="text-gray-400 hover:text-red-500 transition" onclick="window.location.href='404.html'"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column (Narrower) -->
+                    <div class="space-y-8">
+                        
+                        <!-- Section 3: Platform Branding -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <h2 class="text-lg font-bold text-brand-green mb-4">Platform Branding</h2>
+                            <p class="text-xs text-gray-500 mb-6">Configure the default look-and-feel of the SaaS.</p>
+                            
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-xs font-bold text-brand-dark mb-2">Global Logo</label>
+                                    <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-brand-green transition group">
+                                        <i class="fa-solid fa-cloud-arrow-up text-gray-400 group-hover:text-brand-green mb-2 text-xl transition"></i>
+                                        <span class="text-xs font-bold text-brand-dark">Upload Image</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-brand-dark mb-2">Primary System Color</label>
+                                    <div class="flex items-center gap-3">
+                                        <input type="color" value="#004f44" class="w-10 h-10 rounded border border-gray-200 cursor-pointer">
+                                        <span class="text-sm font-mono text-gray-500">#004F44 (Brand Green)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: System Maintenance -->
+                        <div class="bg-brand-dark p-6 rounded-2xl border border-brand-green/20 shadow-lg text-white">
+                            <h2 class="text-lg font-bold mb-4">System Maintenance</h2>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                    <span class="text-sm text-gray-300">Daily Backups</span>
+                                    <span class="text-xs bg-brand-green text-white font-bold px-2 py-0.5 rounded">Enabled</span>
+                                </div>
+                                <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                                    <span class="text-sm text-gray-300">Last Backup</span>
+                                    <span class="text-sm font-bold">Today, 03:00 AM</span>
+                                </div>
+                            </div>
+
+                            <button class="w-full py-2.5 bg-white/10 text-white border border-white/20 text-sm font-bold rounded-lg hover:bg-white/20 transition mb-4" onclick="window.location.href='404.html'">Run Manual Backup</button>
+                            
+                            <div class="mt-6 pt-6 border-t border-red-500/30">
+                                <h4 class="text-sm font-bold text-red-400 mb-2">Danger Zone</h4>
+                                <button class="w-full py-2 bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold rounded-lg hover:bg-red-500 hover:text-white transition" onclick="window.location.href='404.html'">Enable Maintenance Mode</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Sidebar Switching JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve dynamic email from login/signup
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                const emailEl = document.getElementById('profileEmail');
+                if (emailEl) {
+                    emailEl.textContent = userEmail;
+                    emailEl.setAttribute('title', userEmail);
+                }
+                const initialsEl = document.getElementById('profileInitials');
+                if (initialsEl) {
+                    initialsEl.textContent = userEmail.charAt(0).toUpperCase();
+                }
+            }
+
+            const links = document.querySelectorAll('.sidebar-link');
+            const sections = document.querySelectorAll('.dashboard-section');
+
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Reset all links
+                    links.forEach(l => {
+                        l.className = 'sidebar-link flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl font-medium transition';
+                    });
+                    
+                    // Set active link
+                    link.className = 'sidebar-link flex items-center gap-3 px-4 py-3 bg-brand-green rounded-xl text-white font-bold transition';
+                    
+                    // Hide all sections
+                    sections.forEach(sec => {
+                        sec.classList.remove('block');
+                        sec.classList.add('hidden');
+                    });
+                    
+                    // Show target section
+                    const targetId = link.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    if(targetSection) {
+                        targetSection.classList.remove('hidden');
+                        targetSection.classList.add('block');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Preloader Script -->
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('stackly-preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 700);
+            }
+        });
+    </script>
+</body>
+</html>
+
+</body>
+</html>
