@@ -6,6 +6,8 @@
     <title>Hirxpert - Human Resources Solution</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS CSS for Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -1306,6 +1308,18 @@
         });
     </script>
 
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    </script>
+
     <!-- Mobile Menu Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1332,6 +1346,7 @@
 
 </body>
 </html>
+
 
 
 
