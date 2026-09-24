@@ -81,12 +81,12 @@
     <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full z-50 px-6 py-4 lg:px-16 flex justify-between items-center bg-[#f4f7f6] border-b border-gray-200/60 shadow-sm transition-all duration-300">
         <!-- Logo Section -->
-        <div class="flex items-center gap-3 cursor-pointer">
+        <a href="index.html" class="flex items-center gap-3 cursor-pointer">
             <div class="h-12 w-48 relative flex items-center justify-start">
 <img src="assets/images/logo_0045.webp" alt="Logo" class="w-full h-full object-contain">
             </div>
             
-        </div>
+        </a>
 
         <!-- Navigation Links (Middle) -->
         <div class="hidden xl:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-sm font-bold text-gray-900">
@@ -120,22 +120,56 @@
 
     <main>
         <!-- HERO SECTION -->
-        <section class="relative min-h-[60vh] pt-48 pb-24 lg:pt-56 lg:pb-32 bg-brand-dark overflow-hidden flex items-center justify-center text-center">
-            <!-- Background Image with Overlays -->
-            <div class="absolute inset-0 z-0">
-                <img src="assets/images/about_hero_final.webp" alt="About Stackly" class="w-full h-full object-cover object-top opacity-40">
-                <div class="absolute inset-0 bg-[#004f44]/80 mix-blend-multiply"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
-            </div>
-            
-            <div class="container mx-auto px-6 relative z-10">
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 font-serif tracking-wide" data-aos="fade-up">About Stackly</h1>
-                
-                <!-- Breadcrumbs -->
-                <div class="flex items-center justify-center gap-3 text-white/70 text-sm font-medium tracking-widest uppercase" data-aos="fade-up" data-aos-delay="100">
-                    <a href="index.html" class="hover:text-brand-yellow transition">Home</a>
-                    <span class="w-1.5 h-1.5 rounded-full bg-brand-yellow"></span>
-                    <span class="text-white">About Us</span>
+        <section class="relative pt-40 pb-20 bg-brand-light overflow-hidden">
+            <!-- Decorative Background Elements -->
+            <div class="absolute top-0 right-0 w-1/3 h-full bg-brand-green/5 rounded-bl-[100px] pointer-events-none"></div>
+            <div class="absolute -top-20 -left-20 w-96 h-96 bg-brand-yellow/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="container mx-auto px-6 lg:px-16 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center gap-16">
+                    
+                    <!-- Text Content -->
+                    <div class="w-full lg:w-1/2" data-aos="fade-right">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-green/10 text-brand-green text-sm font-bold tracking-widest uppercase mb-6">
+                            <i class="fa-solid fa-users"></i> About Stackly
+                        </div>
+                        <h1 class="text-5xl lg:text-7xl font-serif font-bold text-brand-green leading-[1.1] mb-6">
+                            Empowering <br>
+                            <span class="text-brand-green relative inline-block">
+                                Workplaces
+                                <svg class="absolute w-full h-3 -bottom-1 left-0 text-brand-yellow/60" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="none"/></svg>
+                            </span> 
+                            For Success
+                        </h1>
+                        <p class="text-gray-600 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+                            We are your strategic partners in building thriving workplaces. By combining deep human expertise with modern technology, we help organizations grow.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <a href="contact.html" class="px-8 py-4 bg-brand-dark text-white font-bold rounded-xl hover:bg-brand-green transition duration-300 shadow-lg flex items-center gap-3 group">
+                                Learn More 
+                                <i class="fa-solid fa-arrow-down transform group-hover:translate-y-1 transition"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Visual -->
+                    <div class="w-full lg:w-1/2 relative" data-aos="fade-left">
+                        <div class="relative rounded-[2rem] overflow-hidden aspect-[4/3] shadow-2xl">
+                            <img src="assets/images/about_hero_final.webp" alt="About Us" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-brand-dark/10"></div>
+                        </div>
+                        <!-- Floating Element -->
+                        <div class="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 animate-[bounce_5s_infinite]">
+                            <div class="w-12 h-12 bg-brand-yellow/20 rounded-full flex items-center justify-center text-brand-dark text-xl">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Proven Success</p>
+                                <p class="text-brand-dark font-bold">10+ Years Experience</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -416,8 +450,8 @@
                         <a href="404.html" class="inline-flex items-center gap-3 font-bold text-brand-green hover:text-brand-accent transition group">
                             Explore All Services 
                             <span class="w-10 h-10 rounded-full border border-brand-green flex items-center justify-center group-hover:bg-brand-accent group-hover:border-brand-accent group-hover:text-white transition">
-                                
-                            </span>
+                                    <i class="fa-solid fa-arrow-right -rotate-45"></i>
+                                </span>
                         </a>
                     </div>
                 </div>
@@ -734,11 +768,11 @@
                 <!-- Column 1: About & Newsletter -->
                 <div class="flex flex-col lg:pr-8">
                     <!-- Logo -->
-                    <div class="flex items-center gap-3 mb-6">
+                    <a href="index.html" class="flex items-center gap-3 mb-6">
                         <div class="h-12 w-48 relative flex items-center justify-start">
 <img src="assets/images/logo_0045.webp" alt="Logo" class="w-full h-full object-contain"></div>
                         
-                    </div>
+                    </a>
                     <!-- Description -->
                     <p class="text-gray-400 text-[15px] leading-relaxed mb-8 pr-4">
                         At the heart of our philosophy lies the belief that a thriving workplace is rooted in trust, respect, commitment to continuous growth.
@@ -766,12 +800,12 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-brand-yellow"></span> Quicklinks
                     </h4>
                     <ul class="flex flex-col gap-4">
-                        <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Home</a></li>
-                        <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> About</a></li>
-                        <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Blog</a></li>
-                        <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Services</a></li>
-                        <li><a href="404.html" class="text-brand-yellow hover:text-white text-[15px] flex items-center gap-3 transition"> Contact</a></li>
-                        <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Login</a></li>
+                        <li><a href="index.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> About</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Blog</a></li>
+                        <li><a href="services.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Services</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Contact</a></li>
+                        <li><a href="login.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Login</a></li>
                     </ul>
                 </div>
 
@@ -786,7 +820,7 @@
                         <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Workplace Safety</a></li>
                         <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Retention Strategies</a></li>
                         <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Executive Search</a></li>
-                        <li><a href="404.html" class="text-brand-yellow hover:text-white text-[15px] flex items-center gap-3 transition"> Leadership Development</a></li>
+                        <li><a href="404.html" class="text-gray-400 hover:text-brand-yellow text-[15px] flex items-center gap-3 transition group"> Leadership Development</a></li>
                     </ul>
                 </div>
 
@@ -927,6 +961,8 @@
 
 </body>
 </html>
+
+
 
 
 

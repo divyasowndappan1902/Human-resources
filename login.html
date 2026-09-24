@@ -59,12 +59,12 @@
             <div class="w-full max-w-md mx-auto py-4 lg:py-0">
                 
                 <!-- Logo -->
-                <div class="flex items-center gap-3 mb-10">
+                <a href="index.html" class="flex items-center gap-3 mb-10">
                     <div class="h-10 w-40 relative flex items-center justify-start">
 <img src="assets/images/logo_0045.webp" alt="Logo" class="w-full h-full object-contain">
                     </div>
                     
-                </div>
+                </a>
 
                 <!-- Header -->
                 <h1 class="text-3xl sm:text-4xl font-bold font-serif text-brand-green mb-3">Welcome Back</h1>
@@ -75,8 +75,8 @@
                     <!-- Sliding Background Indicator -->
                     <div id="roleIndicator" class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-brand-accent rounded-lg shadow-sm transition-all duration-300 ease-out"></div>
                     
-                    <button type="button" id="btnClient" class="w-1/2 py-2.5 text-sm font-bold text-white relative z-10 transition-colors">Client</button>
-                    <button type="button" id="btnAdmin" class="w-1/2 py-2.5 text-sm font-bold text-gray-500 relative z-10 transition-colors">Admin</button>
+                    <button type="button" id="btnClient" class="w-1/2 py-2.5 text-sm font-bold text-white relative z-10 transition-colors">Employee</button>
+                    <button type="button" id="btnAdmin" class="w-1/2 py-2.5 text-sm font-bold text-gray-500 relative z-10 transition-colors">HR Management</button>
                     
                     <!-- Hidden input to store role -->
                     <input type="hidden" id="selectedRole" value="client">
@@ -275,9 +275,9 @@
                     
                     const role = selectedRole.value;
                     if (role === 'admin') {
-                        window.location.href = 'admin-dashboard.html';
+                        window.location.href = 'hr-management.html';
                     } else {
-                        window.location.href = 'client-dashboard.html';
+                        window.location.href = 'employee-dashboard.html';
                     }
                 }
             });
@@ -323,3 +323,4 @@
 
 </body>
 </html>
+
